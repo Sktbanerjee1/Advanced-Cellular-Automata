@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cellula · Culture Lab</title>
+<meta name="description" content="Hybrid cellular-automaton / ODE simulator of microbial and mammalian cell cultures with lineage tracking and live equations.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="16.5" cy="12" r="4.5"/></svg><b>Cellula</b><span>culture lab</span></div>
+  <div class="transport">
+    <button id="play" class="btn primary" aria-label="Play"><svg class="i-play" viewBox="0 0 16 16"><path d="M5 3.2v9.6a.6.6 0 0 0 .9.5l7.4-4.8a.6.6 0 0 0 0-1L5.9 2.7a.6.6 0 0 0-.9.5z"/></svg><svg class="i-pause" viewBox="0 0 16 16"><rect x="3.5" y="3" width="3" height="10" rx=".8"/><rect x="9.5" y="3" width="3" height="10" rx=".8"/></svg></button>
+    <button id="step" class="btn" title="Advance one time step">Step</button>
+    <button id="reset" class="btn" title="Re-inoculate with current settings">Reset</button>
+    <label class="speed">Speed <input id="speed" type="range" min="0" max="6" step="1" value="2"><output id="speedOut"></output></label>
+  </div>
+  <div class="clock"><span id="clock">0.0 h</span><small id="clockSub"></small></div>
+  <div class="actions"><button id="feed" class="btn" title="Replace spent medium with fresh medium">Exchange medium</button><button id="passage" class="btn" title="Split 1:8 into fresh medium">Passage 1:8</button></div>
+</header>
+<div class="layout">
+  <aside class="side">
+    <section class="card"><h3>Organism</h3>
+      <input id="cellSearch" type="search" placeholder="Search 40+ strains & cell lines" aria-label="Search cell types">
+      <select id="cell" aria-label="Cell type"></select>
+      <div id="cellInfo" class="info"></div></section>
+    <section class="card"><h3>Culture medium</h3>
+      <select id="medium" aria-label="Medium"></select>
+      <div id="compat" class="badge"></div>
+      <div id="comp" class="comp"></div>
+      <p id="medNote" class="note"></p></section>
+    <section class="card"><h3>Conditions</h3>
+      <label class="row">Temperature <output id="tempOut"></output></label><input id="temp" type="range" min="4" max="55" step=".5">
+      <label class="row">Atmosphere</label><select id="atm" aria-label="Atmosphere"></select>
+      <label class="row">Inoculum <output id="inocOut"></output></label><input id="inoc" type="range" step=".05"></section>
+  </aside>
+  <main class="stage">
+    <div class="view" id="view">
+      <div class="hud">
+        <div class="big"><span id="live">0</span><small id="liveUnit">cells/mL</small></div>
+        <dl id="stats" class="stats"></dl>
+      </div>
+      <div class="modes" role="radiogroup" aria-label="Colour cells by">
+        <button data-mode="lineage" class="on">Clone</button><button data-mode="gen">Generation</button><button data-mode="phase">Cycle phase</button><button data-mode="clone">Selected clone</button>
+      </div>
+      <div id="legend" class="vlegend"></div>
+      <div class="hint">Scroll to zoom · drag to pan · click a cell to track it</div>
+    </div>
+    <div class="charts"><div class="chart"><canvas id="gChart"></canvas></div><div class="chart"><canvas id="mChart"></canvas></div></div>
+  </main>
+  <aside class="panel">
+    <nav class="tabs" role="tablist"><button data-tab="lin" class="on">Lineage</button><button data-tab="med">Medium</button><button data-tab="eq">Equations</button></nav>
+    <div id="tab-lin" class="tab on"></div>
+    <div id="tab-med" class="tab"></div>
+    <div id="tab-eq" class="tab"></div>
+  </aside>
+</div>
+</body>
+</html>

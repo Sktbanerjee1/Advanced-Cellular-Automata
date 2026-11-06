@@ -1,0 +1,38 @@
+# --- Claude / AI assistant files (local only) ---
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+.claudeignore
+.mcp.json
+.cursor/
+.cursorrules
+.aider*
+.copilot/
+
+# --- Local setup / environment ---
+.env
+.env.*
+.venv/
+venv/
+__pycache__/
+node_modules/
+package-lock.json
+*.log
+*.tmp
+.cache/
+
+# --- Editors / IDEs ---
+.vscode/
+.idea/
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*:Zone.Identifier
+
+# NOTE: keep .nojekyll tracked (required for GitHub Pages)
